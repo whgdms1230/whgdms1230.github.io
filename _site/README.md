@@ -1,5 +1,7 @@
 ## 1. Profile
 
+<img src="./asset/images/picture.jpg">
+
 ### Jiyong Kim
 
 #### Manager / Platform Business Team, [CLOBOT Co., Ltd.](https://www.clobot.co.kr)
