@@ -20,7 +20,7 @@ sort: 1
 3. 직사각형 또는 원형의 단순한 모형으로 단순화하여 제어되므로, 공간에 비해 로봇의 크기가 크면 제한됨
 
 ## 3. Robot Setup
-<img src="./RobotSetup.jpg"  width="700" height="500">
+<img src="RobotSetup.png"  width="900" height="400">
 
 위 다이어그램은 Navigation 구성 요소들을 나타낸다. 따라서 Navigation을 운용하기 위해서는 기본적으로 다음을 필요로 한다.
 
