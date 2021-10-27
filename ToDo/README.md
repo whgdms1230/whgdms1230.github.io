@@ -13,15 +13,16 @@ sort: 11
 
 * *navgation*
 
-* tf에 대한 내용
-* ros의 토픽, 서비스, 액션, 파라미터
-* gazebo 구조 및 urdf, sdf 내용, spawn
-* rviz
-* ros package의 전체적인 구조
-* ros api
+* ros package의 전체적인 구조(basic)
+* ros 기본 명령어(basic)
+* ros의 토픽, 서비스, 액션, 파라미터(basic)
+* ros api(basic)
+* rviz(basic)
+* tf에 대한 내용(basic)
+* gazebo 구조 및 urdf, sdf 내용, spawn(basic)
+
 * ros index 등록 및 release 방법
 * ros wiki 및 github 관리
-* ros 기본 명령어
 * 정적라이브러리, 동적 라이브러리 추가 방법
 
 ## 2. [ROS 2.0](/ROS2/)
@@ -32,19 +33,22 @@ sort: 11
 
 * *launch 파일 구조*
 
-* tf2에 대한 내용
-* ros의 토픽, 서비스, 액션, 파라미터
-* gazebo와 ignition
-* rviz2
+* ros2 package 구조(basic)
+* ros2 기본 명령어(basic)
+* ros의 토픽, 서비스, 액션, 파라미터(basic)
+* ros api(basic)
+* rviz2(basic)
+* tf2에 대한 내용(basic)
+* gazebo와 ignition(basic)
+
+* dds
 * navigation2
-* ros2 package 구조
-* ros api
 * linter
 * free fleet 과 rmf
-* ros2 기본 명령어
+
 * 정적라이브러리, 동적 라이브러리 추가 방법
 * json, yaml, xml 파일 등
-* dds
+
 * ROS 개발에 유용한 VSCode Extension(Remote - SSH)
 
 ## 3. [Robotics](/ROBOTICS/)
