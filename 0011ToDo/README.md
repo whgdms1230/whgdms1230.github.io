@@ -4,7 +4,7 @@ sort: 11
 
 # To Do
 
-## 1. [ROS 1.0](/ROS1/)
+## 1. [ROS 1.0](/0001ROS1/)
 * **noetic 설치 방법**
 * **catkin에 대한 내용**
 * **CMakeLists.txt 구조, 기능, 작성방법 등**
@@ -25,7 +25,7 @@ sort: 11
 * ros wiki 및 github 관리
 * 정적라이브러리, 동적 라이브러리 추가 방법
 
-## 2. [ROS 2.0](/ROS2/)
+## 2. [ROS 2.0](/0002ROS2/)
 * **foxy 설치 방법**
 * **colcon에 대한 내용(catkin과의 차이)**
 * **CMakeLists.txt 구조, 기능, 작성방법 등**
@@ -51,14 +51,14 @@ sort: 11
 
 * ROS 개발에 유용한 VSCode Extension(Remote - SSH)
 
-## 3. [Robotics](/ROBOTICS/)
+## 3. [Robotics](/0003ROBOTICS/)
 * 로봇동역학 정리(F.K. ~ 역동역학 제어)
 * PD 제어, CTC 제어
 * 매니퓰레이터
 * 로봇 설계
 * 제어공학
 
-## 4. [github](/Github/)
+## 4. [github](/0004Github/)
 * git 명령어 정리(주로 사용하는 명령어)
 * commit message
 * fork 및 pull request 방법
@@ -73,7 +73,7 @@ sort: 11
 * binary release
 * VSCode Extension Git Graph, GitLens
 
-## 5. [Linux](/Linux/)
+## 5. [Linux](/0005Linux/)
 * **리눅스 기본 명령어 정리**
 * **쉘 스크립트, bash**
 
@@ -90,7 +90,7 @@ sort: 11
 * wget을 이용한 다운로드
 * scp
 
-## 6. [C++](/C++/)
+## 6. [C++](/0006C++/)
 * *C++ 문법 정리*
 
 * 모던 C++과 클래식 C++
@@ -101,20 +101,20 @@ sort: 11
 * 포인터와 참조자
 * 코딩스타일
 
-## 7. [python](/Python/)
+## 7. [python](/0007Python/)
 * 
 
-## 8. [Algorithm](/Algorithm/)
+## 8. [Algorithm](/0008Algorithm/)
 * network 구조
 * 동적 라이브러리 / 정적 라이브러리
 * 기타 알고리즘 이론 정리
 * A* / Dijkstra
 
-## 9. [용어정리](/Words/)
+## 9. [용어정리](/0009Words/)
 * mssql
 * CMake
 * lagecy
 
-## 10. [Tools](/Tools/)
+## 10. [Tools](/0010Tools/)
 * docker
 * VScode
