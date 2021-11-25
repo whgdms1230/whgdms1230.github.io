@@ -60,12 +60,15 @@ generate_messages(DEPENDENCIES actionlib_msgs)
 #### 4.1.2 Build a package that depends on actionlib API
 만약 actionlib API에 대한 의존성이 있다면 다음과 같이 패키지를 구성한다.
 * CMakeLists.txt
+
 ```cmake
 find_package(catkin REQUIRED genmsg actionlib_msgs actionlib)
 add_action_files(DIRECTORY action FILES DoDishes.action)
 generate_messages(DEPENDENCIES actionlib_msgs)
 ```
+
 * package.xml
+
 ```xml
 <build_depend>actionlib</build_depend>
 <build_depend>actionlib_msgs</build_depend>

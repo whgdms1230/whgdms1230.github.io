@@ -18,92 +18,105 @@ sort: 5
 `ROS 2.0`에서 사용하는 `launch` 파일에는 `.launch.py` 형태와 ROS 1.0과 같은 `XML` 형태와 마지막으로 `YAML` 형태가 있다.
 
 ## 3. .launch.py 작성
-다음은 turtlebot3의 [navigation2.launch.py](https://github.com/ROBOTIS-GIT/turtlebot3/blob/foxy-devel/turtlebot3_navigation2/launch/navigation2.launch.py)를 가져왔다.
+다음은 foxy documentation의 [example.launch.py](https://docs.ros.org/en/foxy/How-To-Guides/Launch-file-different-formats.html)를 가져왔다.
 ```python
-# Copyright 2019 Open Source Robotics Foundation, Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# Author: Darby Lim
+# example.launch.py
 
 import os
 
-from ament_index_python.packages import get_package_share_directory
+from ament_index_python import get_package_share_directory
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
+from launch.actions import GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch.substitutions import TextSubstitution
 from launch_ros.actions import Node
-
-TURTLEBOT3_MODEL = os.environ['TURTLEBOT3_MODEL']
+from launch_ros.actions import PushRosNamespace
 
 
 def generate_launch_description():
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    map_dir = LaunchConfiguration(
-        'map',
-        default=os.path.join(
-            get_package_share_directory('turtlebot3_navigation2'),
-            'map',
-            'turtlebot3_world.yaml'))
 
-    param_file_name = TURTLEBOT3_MODEL + '.yaml'
-    param_dir = LaunchConfiguration(
-        'params_file',
-        default=os.path.join(
-            get_package_share_directory('turtlebot3_navigation2'),
-            'param',
-            param_file_name))
+    # args that can be set from the command line or a default will be used
+    background_r_launch_arg = DeclareLaunchArgument(
+        "background_r", default_value=TextSubstitution(text="0")
+    )
+    background_g_launch_arg = DeclareLaunchArgument(
+        "background_g", default_value=TextSubstitution(text="255")
+    )
+    background_b_launch_arg = DeclareLaunchArgument(
+        "background_b", default_value=TextSubstitution(text="0")
+    )
+    chatter_ns_launch_arg = DeclareLaunchArgument(
+        "chatter_ns", default_value=TextSubstitution(text="my/chatter/ns")
+    )
 
-    nav2_launch_file_dir = os.path.join(get_package_share_directory('nav2_bringup'), 'launch')
+    # include another launch file
+    launch_include = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory('demo_nodes_cpp'),
+                'launch/topics/talker_listener.launch.py'))
+    )
+    # include another launch file in the chatter_ns namespace
+    launch_include_with_namespace = GroupAction(
+        actions=[
+            # push-ros-namespace to set namespace of included nodes
+            PushRosNamespace(LaunchConfiguration('chatter_ns')),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(
+                        get_package_share_directory('demo_nodes_cpp'),
+                        'launch/topics/talker_listener.launch.py'))
+            ),
+        ]
+    )
 
-    rviz_config_dir = os.path.join(
-        get_package_share_directory('nav2_bringup'),
-        'rviz',
-        'nav2_default_view.rviz')
+    # start a turtlesim_node in the turtlesim1 namespace
+    turtlesim_node = Node(
+            package='turtlesim',
+            namespace='turtlesim1',
+            executable='turtlesim_node',
+            name='sim'
+        )
+
+    # start another turtlesim_node in the turtlesim2 namespace
+    # and use args to set parameters
+    turtlesim_node_with_parameters = Node(
+            package='turtlesim',
+            namespace='turtlesim2',
+            executable='turtlesim_node',
+            name='sim',
+            parameters=[{
+                "background_r": LaunchConfiguration('background_r'),
+                "background_g": LaunchConfiguration('background_g'),
+                "background_b": LaunchConfiguration('background_b'),
+            }]
+        )
+
+    # perform remap so both turtles listen to the same command topic
+    forward_turtlesim_commands_to_second_turtlesim_node = Node(
+            package='turtlesim',
+            executable='mimic',
+            name='mimic',
+            remappings=[
+                ('/input/pose', '/turtlesim1/turtle1/pose'),
+                ('/output/cmd_vel', '/turtlesim2/turtle1/cmd_vel'),
+            ]
+        )
 
     return LaunchDescription([
-        DeclareLaunchArgument(
-            'map',
-            default_value=map_dir,
-            description='Full path to map file to load'),
-
-        DeclareLaunchArgument(
-            'params_file',
-            default_value=param_dir,
-            description='Full path to param file to load'),
-
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value='false',
-            description='Use simulation (Gazebo) clock if true'),
-
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
-            launch_arguments={
-                'map': map_dir,
-                'use_sim_time': use_sim_time,
-                'params_file': param_dir}.items(),
-        ),
-
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', rviz_config_dir],
-            parameters=[{'use_sim_time': use_sim_time}],
-            output='screen'),
+        background_r_launch_arg,
+        background_g_launch_arg,
+        background_b_launch_arg,
+        chatter_ns_launch_arg,
+        launch_include,
+        launch_include_with_namespace,
+        turtlesim_node,
+        turtlesim_node_with_parameters,
+        forward_turtlesim_commands_to_second_turtlesim_node,
     ])
 ```
 
@@ -196,4 +209,178 @@ def generate_launch_description():
                 [get_package_share_directory('B'), 'Y.launch.py']),
         ),
     ])
+```
+
+## 4. xml 형태의 launch 파일 작성
+다음으로 launch.py 와 동일한 내용의 example.launch.xml 파일을 가져왔으며, 해당 내용은 [ROS 1.0의 launch 파일](~/0001ROS1/0001Basic/0005Launch-System.html)과 동일한 형태로 구성되어 있다.
+
+```xml
+<!-- example.launch.xml -->
+
+<launch>
+
+  <!-- args that can be set from the command line or a default will be used -->
+  <arg name="background_r" default="0"/>
+  <arg name="background_g" default="255"/>
+  <arg name="background_b" default="0"/>
+  <arg name="chatter_ns" default="my/chatter/ns"/>
+
+  <!-- include another launch file -->
+  <include file="$(find-pkg-share demo_nodes_cpp)/launch/topics/talker_listener.launch.py"/>
+  <!-- include another launch file in the chatter_ns namespace-->
+  <group>
+    <!-- push-ros-namespace to set namespace of included nodes -->
+    <push-ros-namespace namespace="$(var chatter_ns)"/>
+    <include file="$(find-pkg-share demo_nodes_cpp)/launch/topics/talker_listener.launch.py"/>
+  </group>
+
+  <!-- start a turtlesim_node in the turtlesim1 namespace -->
+  <node pkg="turtlesim" exec="turtlesim_node" name="sim" namespace="turtlesim1"/>
+  <!-- start another turtlesim_node in the turtlesim2 namespace
+      and use args to set parameters -->
+  <node pkg="turtlesim" exec="turtlesim_node" name="sim" namespace="turtlesim2">
+    <param name="background_r" value="$(var background_r)"/>
+    <param name="background_g" value="$(var background_g)"/>
+    <param name="background_b" value="$(var background_b)"/>
+  </node>
+  <!-- perform remap so both turtles listen to the same command topic -->
+  <node pkg="turtlesim" exec="mimic" name="mimic">
+    <remap from="/input/pose" to="/turtlesim1/turtle1/pose"/>
+    <remap from="/output/cmd_vel" to="/turtlesim2/turtle1/cmd_vel"/>
+  </node>
+</launch>
+```
+### 4.1 arguments
+launch.xml에서는 다음과 같이 파일의 첫 부분에 `arg` 태그로 인자를 정의할 수 있다. 해당 인자는 이후에 가져와서 사용할 수 있으며, 상위 launch 파일이나 commandline 에서 설정이 되지 않으면 default 값으로 설정된다.
+```xml
+  <!-- args that can be set from the command line or a default will be used -->
+  <arg name="background_r" default="0"/>
+  <arg name="background_g" default="255"/>
+  <arg name="background_b" default="0"/>
+  <arg name="chatter_ns" default="my/chatter/ns"/>
+```
+
+### 4.2 include
+`include` 태그는 launch 파일을 불러와 실행시키는 명령어로, 해당 launch파일에 정의되어 있는 명령들을 수행한다.
+```xml
+  <!-- include another launch file -->
+  <include file="$(find-pkg-share demo_nodes_cpp)/launch/topics/talker_listener.launch.py"/>
+```
+
+### 4.3 group
+`group` 태그는 동일한 namespace 아래에 여러개의 노드를 묶어서 실행시킬 때 사용되는 태그이다. 
+```xml
+  <!-- include another launch file in the chatter_ns namespace-->
+  <group>
+    <!-- push-ros-namespace to set namespace of included nodes -->
+    <push-ros-namespace namespace="$(var chatter_ns)"/>
+    <include file="$(find-pkg-share demo_nodes_cpp)/launch/topics/talker_listener.launch.py"/>
+  </group>
+
+```
+
+### 4.4 node
+`node` 태그는 특정 패키지의 하나의 특정 노드를 실행시키는 명령어이다. `node` 태그 아래에 `param` 명령을 통해서 노드안에서 사용되는 파라미터들의 설정값을 미리 설정할 수 있으며, `remap`명령을 통해 특정 토픽명을 원하는 토픽 이름으로 바꿀 수 있다.
+
+```xml
+  <!-- start a turtlesim_node in the turtlesim1 namespace -->
+  <node pkg="turtlesim" exec="turtlesim_node" name="sim" namespace="turtlesim1"/>
+  <!-- start another turtlesim_node in the turtlesim2 namespace
+      and use args to set parameters -->
+  <node pkg="turtlesim" exec="turtlesim_node" name="sim" namespace="turtlesim2">
+    <param name="background_r" value="$(var background_r)"/>
+    <param name="background_g" value="$(var background_g)"/>
+    <param name="background_b" value="$(var background_b)"/>
+  </node>
+  <!-- perform remap so both turtles listen to the same command topic -->
+  <node pkg="turtlesim" exec="mimic" name="mimic">
+    <remap from="/input/pose" to="/turtlesim1/turtle1/pose"/>
+    <remap from="/output/cmd_vel" to="/turtlesim2/turtle1/cmd_vel"/>
+  </node>
+```
+
+### 4.5 이외의 xml 파일의 태그
+* `<launch>` : roslaunch 구분의 시작과 끝을 나타냄
+* `<node>` : 노드 실행에 대한 태그. 패키지(`pkg`), 실행 시 노드명(`name`), 패키지 내 실행 파일의 이름(`type`, `exec`), 로그 출력(`output`) 등을 설정
+* `<machine>` : 노드를 실행하는 PC의 이름. address, ros-root, ros-package-path 등 설정
+* `<include>` : 다른 패키지나 같은 패키지에 속해 있는 다른 launch를 불러옴
+* `<remap>` : 노드 이름, 토픽 이름 등의 노드에서 사용 중인 ROS 변수의 이름 변경
+* `<env>` : 경로, IP 등의 환경변수를 설정
+* `<param>` : 파라미터 이름, 타이프, 값 등을 설정
+* `<rosparam>` : rosparam 명령과 같이, load, dump, delete 등 파라미터 정보를 확인 및 수정
+* `<group>` : 노드 그룹화
+* `<test>` : 노드 테스트할 때 사용
+* `<arg>` : launch 파일 내 변수 정의
+
+## 5. YAML 파일 형태의 launch 파일
+다음으로 동일한 내용의 launch 파일로, yaml 파일의 형식으로 선언되어 있는 파일이다.
+
+해당 내용은 예제 파일의 형태를 가지고 동일한 형태로 사용해보면 좋을 것 같음.
+```yaml
+# example.launch.yaml
+
+launch:
+
+# args that can be set from the command line or a default will be used
+- arg:
+    name: "background_r"
+    default: "0"
+- arg:
+    name: "background_g"
+    default: "255"
+- arg:
+    name: "background_b"
+    default: "0"
+- arg:
+    name: "chatter_ns"
+    default: "my/chatter/ns"
+
+
+# include another launch file
+- include:
+    file: "$(find-pkg-share demo_nodes_cpp)/launch/topics/talker_listener.launch.py"
+
+# include another launch file in the chatter_ns namespace
+- group:
+    - push-ros-namespace:
+        namespace: "$(var chatter_ns)"
+    - include:
+        file: "$(find-pkg-share demo_nodes_cpp)/launch/topics/talker_listener.launch.py"
+
+# start a turtlesim_node in the turtlesim1 namespace
+- node:
+    pkg: "turtlesim"
+    exec: "turtlesim_node"
+    name: "sim"
+    namespace: "turtlesim1"
+
+# start another turtlesim_node in the turtlesim2 namespace and use args to set parameters
+- node:
+    pkg: "turtlesim"
+    exec: "turtlesim_node"
+    name: "sim"
+    namespace: "turtlesim2"
+    param:
+    -
+      name: "background_r"
+      value: "$(var background_r)"
+    -
+      name: "background_g"
+      value: "$(var background_g)"
+    -
+      name: "background_b"
+      value: "$(var background_b)"
+
+# perform remap so both turtles listen to the same command topic
+- node:
+    pkg: "turtlesim"
+    exec: "mimic"
+    name: "mimic"
+    remap:
+    -
+        from: "/input/pose"
+        to: "/turtlesim1/turtle1/pose"
+    -
+        from: "/output/cmd_vel"
+        to: "/turtlesim2/turtle1/cmd_vel"
 ```

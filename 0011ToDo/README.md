@@ -30,12 +30,12 @@ sort: 11
 * **colcon에 대한 내용(catkin과의 차이)**
 * **CMakeLists.txt 구조, 기능, 작성방법 등**
 * **package.xml 구조, 기능, 작성방법 등**
+* **launch 파일 구조**
+* **ros2 package 구조(basic)**
 
-* *launch 파일 구조*
-
-* ros2 package 구조(basic)
-* ros2 기본 명령어(basic)
 * ros의 토픽, 서비스, 액션, 파라미터(basic)
+
+* ros2 기본 명령어(basic)
 * ros api(basic)
 * rviz2(basic)
 * tf2에 대한 내용(basic)
@@ -118,3 +118,5 @@ sort: 11
 ## 10. [Tools](/0010Tools/)
 * docker
 * VScode
+* TCP/IP 통신
+* CycloneDDS
