@@ -110,12 +110,7 @@ sort: 11
 * 기타 알고리즘 이론 정리
 * A* / Dijkstra
 
-## 9. [용어정리](/0009Words/)
-* mssql
-* CMake
-* lagecy
-
-## 10. [Tools](/0010Tools/)
+## 9. [Tools](/0009Tools/)
 * docker
 * VScode
 * TCP/IP 통신
