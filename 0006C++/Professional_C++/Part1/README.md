@@ -2,6 +2,6 @@
 sort: 1
 ---
 
-# Grammer
+# Part 1. Introduction to Professional C++
 
 {% include list.liquid all=true %}
