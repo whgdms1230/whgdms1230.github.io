@@ -444,6 +444,8 @@ head -q [file name]
 * ifconfig : 네트워크 인터페이스를 설정하거나 확인하는 명령어. IP주소, 서브넷마스크, MAC주소, 네트워크 상태 등을 확인, 설정하는 명령어
 
 ```bash
+sudo apt-get install net-tools
+
 # ip 확인하기
 ifconfig
 
@@ -732,6 +734,8 @@ source [filename]
 * ssh : Secure Shell의 약자로 네트워크 상의 다른 컴퓨터에 로그인하거나 원격 시스템에서 명령을 실행하고 다른 시스템으로 파일을 복사할 수 있도록 해주는 응용 프로그램 또는 프로토콜
 
 ```bash
+sudo apt-get install ssh
+
 # 특정 사용자의 ip 주소에 접속
 ssh [user name]@[ip address]
 
@@ -788,6 +792,11 @@ tar -zxvf [tar name].tar
 ```bash
 # filename의 0바이트 파일을 생성
 touch [filename]
+```
+
+* tree : 디렉토리의 트리 구조를 볼 수 있음
+```bash
+sudo apt-get install tree
 ```
 
 ## U
