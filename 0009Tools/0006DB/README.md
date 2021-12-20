@@ -2,6 +2,6 @@
 sort: 6
 ---
 
-# SQLite
+# DB
 
 {% include list.liquid all=true %}
