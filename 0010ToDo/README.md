@@ -58,7 +58,7 @@ sort: 11
 * 로봇 설계
 * 제어공학
 
-## 4. [github](/0004Github/)
+## 4. [git](/0004Git/)
 * git 명령어 정리(주로 사용하는 명령어)
 * commit message
 * fork 및 pull request 방법
