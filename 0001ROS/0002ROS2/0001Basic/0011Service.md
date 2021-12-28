@@ -1,8 +1,8 @@
 ---
-sort: 7
+sort: 11
 ---
 
-# Command Line Interface
+# Service
 
 ## 0. 참고 문헌
 *- ROS 2로 시작하는 로봇 프로그래밍(표윤석, 임태훈)*
