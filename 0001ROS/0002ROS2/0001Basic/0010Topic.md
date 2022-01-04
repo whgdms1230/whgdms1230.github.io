@@ -13,7 +13,7 @@ sort: 10
 
 
 ## 1. Topic
-토픽은 비동기식 단방향 메시지 송수신 방식으로 Publisher와 Subscriber 간의 통신으로 이루어진다. Topic은 1:1, 1:N, N:1, N:N 통신 모두 가능하다.
+[토픽](https://docs.ros.org/en/foxy/Tutorials/Topics/Understanding-ROS2-Topics.html)은 비동기식 단방향 메시지 송수신 방식으로 Publisher와 Subscriber 간의 통신으로 이루어진다. Topic은 1:1, 1:N, N:1, N:N 통신 모두 가능하다.
 
 ## 2. C++
 

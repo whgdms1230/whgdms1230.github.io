@@ -104,6 +104,13 @@ git merge --no-commit <branch_name>
 git merge --squash <branch_name>
 ```
 
+## rebase
+브랜치의 분기점을 특정 브랜치로 옮기는 작업
+```bash
+# 특정 branch의 base를 base branch라는 branch로 베이스를 바꾸기
+git branch <base branch> <branch_name>
+```
+
 ## log
 깃 이력 확인
 ```bash
@@ -161,4 +168,60 @@ git push <remote_repository_name> <local_branch_name>:<remote_branch_name>
 
 # 원격 저장소 브랜치 삭제
 git push <remote_repository_name> --delete <remote_branch_name>
+```
+
+## reset
+특정 커밋 상태로 돌아가며, 그 이후에 생성된 커밋은 삭제함
+```bash
+# commit ID로 돌아가며, 변경된 내용은 모두 stage에 올라감
+git reset --soft <commit ID>
+
+# commit ID로 돌아가며, 변경된 내용은 모두 유지됨
+git reset --mixed <commit ID>
+
+# commit ID로 돌아가며, 변경된 내용은 모두 삭제됨
+git reset --hard <commit ID>
+
+# 가장 최근 커밋 취소
+git reset HEAD^
+
+# 현재 커밋부터 N 번째 이전의 커밋으로 돌아감
+git reset HEAD~N
+```
+
+## revert
+특정 커밋 상태로 돌아가며, 그 이후의 생성된 커밋은 모두 보존됨
+```bash
+git revert <commit ID>
+```
+
+## stash
+현재 작업 중인 내용을 커밋하지 않고 임시 저장하고, 변경 내용을 초기화하는데 사용
+```bash
+# 현재 작업 중인 내용 stash
+git stash
+
+# stash 목록 보기
+git stash -list
+
+# stash에 저장된 최신 내용 가져오고, 해당 내용 삭제
+git stash pop
+
+# stash에 저장된 내용 중 특정 내용 가져오고, 해당 내용 삭제
+git stash pop stash@{<stash number>}
+
+# stash에 저장된 최신 내용을 삭제
+git stash drop
+
+# stash에 저장된 내용 중 특정 내용을 삭제
+git stash drop stash@{<stash number>}
+
+# stash 내용 전체 삭제
+git stash clear
+```
+
+## status
+현재 git의 상태정보를 불러옴
+```bash
+git status
 ```
