@@ -1,7 +1,7 @@
 ---
-sort: 3
+sort: 1006
 ---
 
-# Commit
+# PR & ISSUE
 
 github 기초 개념

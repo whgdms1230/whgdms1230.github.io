@@ -1,7 +1,7 @@
 ---
-sort: 10
+sort: 1009
 ---
 
-# Submodule
+# Linter & Action
 
 github 기초 개념

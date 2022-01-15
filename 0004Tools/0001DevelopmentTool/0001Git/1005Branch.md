@@ -1,7 +1,7 @@
 ---
-sort: 4
+sort: 1005
 ---
 
-# Merge & Rebase
+# Branch
 
 github 기초 개념

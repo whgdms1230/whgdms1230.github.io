@@ -1,7 +1,7 @@
 ---
-sort: 6
+sort: 1008
 ---
 
-# PR & ISSUE
+# License
 
 github 기초 개념

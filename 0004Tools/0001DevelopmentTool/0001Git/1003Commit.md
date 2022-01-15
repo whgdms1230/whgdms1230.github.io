@@ -1,7 +1,7 @@
 ---
-sort: 9
+sort: 1003
 ---
 
-# Linter & Action
+# Commit
 
 github 기초 개념
