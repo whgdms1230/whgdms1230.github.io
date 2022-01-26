@@ -2,7 +2,7 @@
 sort: 3
 ---
 
-# Principle of C++ Design
+# Two Rules for Your Own C++ Design
 
 * 참고문헌 : 전문가를 위한 C++(마크 그레고리 / 한빛미디어)
 

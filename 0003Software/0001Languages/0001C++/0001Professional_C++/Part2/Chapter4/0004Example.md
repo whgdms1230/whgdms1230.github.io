@@ -2,7 +2,7 @@
 sort: 4
 ---
 
-# Chess Program Design Example
+# Designing a Chess Program
 
 * 참고문헌 : 전문가를 위한 C++(마크 그레고리 / 한빛미디어)
 
