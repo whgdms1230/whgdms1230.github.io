@@ -8,6 +8,8 @@ sort: 4
 
 *- [Pro Git](https://git-scm.com/book/ko/v2)*
 
+*- [Pro Git-Git 저장소 만들기](https://git-scm.com/book/ko/v2/Git%EC%9D%98-%EA%B8%B0%EC%B4%88-Git-%EC%A0%80%EC%9E%A5%EC%86%8C-%EB%A7%8C%EB%93%A4%EA%B8%B0)*
+
 ## 1. 저장소 만들기
 
 주로 다음 두 가지 중 한 가지 방법으로 Git 저장소를 쓰기 시작한다.

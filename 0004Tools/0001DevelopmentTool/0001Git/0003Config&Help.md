@@ -8,6 +8,10 @@ sort: 3
 
 *- [Pro Git](https://git-scm.com/book/ko/v2)*
 
+*- [Pro Git-Git 최초 설정](https://git-scm.com/book/ko/v2/%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0-Git-%EC%B5%9C%EC%B4%88-%EC%84%A4%EC%A0%95)*
+
+*- [Pro Git-도움말 보기](https://git-scm.com/book/ko/v2/%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0-%EB%8F%84%EC%9B%80%EB%A7%90-%EB%B3%B4%EA%B8%B0)*
+
 ## 1. config
 
 Git은 커밋할 때마다 사용자 이름과 이메일 주소 정보를 이용하여 커밋 정보를 저장한다. 따라서 사용자 이름과 이메일 주소 정보를 설정해야 하는데, 이 때 사용되는 명령어가 `config`이다.

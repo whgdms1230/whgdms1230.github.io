@@ -8,6 +8,8 @@ sort: 8
 
 *- [Pro Git](https://git-scm.com/book/ko/v2)*
 
+*- [Pro Git-수정하고 저장소에 저장하기](https://git-scm.com/book/ko/v2/Git%EC%9D%98-%EA%B8%B0%EC%B4%88-%EC%88%98%EC%A0%95%ED%95%98%EA%B3%A0-%EC%A0%80%EC%9E%A5%EC%86%8C%EC%97%90-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0)*
+
 ## 1. Add
 
 git add는 working tree 상의 변경 내용을 스테이지 영역에 추가하는 명령어이다. 즉 Untracked 파일이나, Modified 파일을 Stage 영역에 추가함으로써, Commit 명령 시 새로운 버전에 등록되는 파일을 추가하는 것이다.
