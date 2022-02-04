@@ -408,3 +408,46 @@ def main(args=None):
                     (minimal_client.req.a, minimal_client.req.b, response.sum))
             break
 ```
+
+## TIP
+
+### * C++ SERVER에서 람다 함수를 이용한 service 객체 만들기
+
+위의 예제에서 service 객체를 만들 때, 람다 함수를 이용한 것으로, request와 response를 명시해서 직접 인자로 넘겨주는 방법.
+
+서브시스템을 이용하거나, 여러가지 이유로 람다함수로 명시하는 것이 더 좋은 경우도 있다.
+```cpp
+#include "rclcpp/rclcpp.hpp"
+#include "example_interfaces/srv/add_two_ints.hpp"
+
+#include <memory>
+
+void add(const std::shared_ptr<example_interfaces::srv::AddTwoInts::Request> request,
+          std::shared_ptr<example_interfaces::srv::AddTwoInts::Response>      response)
+{
+  response->sum = request->a + request->b;
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Incoming request\na: %ld" " b: %ld",
+                request->a, request->b);
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "sending back response: [%ld]", (long int)response->sum);
+}
+
+int main(int argc, char **argv)
+{
+  rclcpp::init(argc, argv);
+
+  std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("add_two_ints_server");
+
+  rclcpp::Service<example_interfaces::srv::AddTwoInts>::SharedPtr service =
+    node->create_service<example_interfaces::srv::AddTwoInts>("add_two_ints",
+    [=](const std::shared_ptr<example_interfaces::srv::AddTwoInts::Request> request,
+        std::shared_ptr<example_interfaces::srv::AddTwoInts::Response> response)
+        {
+            add(request, response);
+        });
+
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Ready to add two ints.");
+
+  rclcpp::spin(node);
+  rclcpp::shutdown();
+}
+```

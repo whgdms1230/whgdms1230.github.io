@@ -20,7 +20,7 @@ I am currently a manager at the CLOBOT Co., Ltd since 2021. I received a B.S and
 * [Jung‑Yup Kim, Ji‑Yong Kim, Hyeong‑Sic Kim, Kiwon Park, "Development and Evaluation of a Hybrid Walking Rehabilitation Robot, DDgo Pro," International Journal of Precision Engineering and Manufacturing, Vol. 21, pp. 2105–2115, 2020.](https://doi.org/10.1007/s12541-020-00404-x)
 
 ## 5. International Conference
-* Ji-Yong Kim, Jae-Wong Cho, Ji-Hyeon Kwon, "Multi-robot traffic management using MIP path negotiation scheduler," International Conference on Control, Automation and Systems, 2021.
+* [Ji-Yong Kim, Jae-Wong Cho, Ji-Hyeon Kwon, "Multi-robot traffic management using MIP path negotiation scheduler," International Conference on Control, Automation and Systems, pp. 2196-2199, 2021.](https://doi.org/10.23919/ICCAS52745.2021.9649860)
 
 ## 6. Domestic Conference
 * [김지용, 김정엽, "역동역학 기반의 보행 재활 로봇의 수동 모드 보행 훈련 알고리즘", 한국정밀공학회 학술발표대회 논문집, 21-22, 2020.](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE10489383)
