@@ -2,7 +2,7 @@
 sort: 10
 ---
 
-# Reset
+# Reset&Revert
 
 ## 0. 참고 문헌
 
@@ -72,3 +72,5 @@ git reset HEAD <file>
 ```
 
 위와 같이, file에 상태를 변경하고자 하는 파일을 작성하면, 해당 file의 상태를 변경할 수 있다. 만약 staged 파일이었다면, unstaged 상태로 바뀌고, unstaged 상태인 파일이 modified 상태였다면, 이전 커밋의 파일 상태로 되돌아가게 된다.
+
+## 3. Revert
