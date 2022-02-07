@@ -1,7 +1,7 @@
 ---
-sort: 2
+sort: 3
 ---
 
-# Chapter 5. Designing with Objects
+# Chapter 6. Designing for Reuse
 
 {% include list.liquid all=true %}
