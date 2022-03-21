@@ -12,4 +12,7 @@ sort: 14
 
 *- [Pro Git-고급 Merge](https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-%EA%B3%A0%EA%B8%89-Merge)*
 
-## 1. 
+## 1. Merge란?
+
+Merge는 분기(base brach)가 같은 브랜치 간의 내용을 병합하는 과정이다.
+
