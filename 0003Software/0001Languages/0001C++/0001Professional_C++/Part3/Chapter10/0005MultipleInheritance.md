@@ -132,6 +132,8 @@ class DogBird : public Bird, publiv Dog {}; // 에러 발생
 
 > Dog와 Bird 사이에서 모호함이 발생하는 근본 원인은 같은 클래스를 상속하기 때문이 아니라 메서드 이름이 같기 때문이다.
 
+<img src="DiamondHierarchy.png"  width="800" height="200">
+
 ```cpp
 class Animal
 {
