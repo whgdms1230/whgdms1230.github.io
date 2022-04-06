@@ -9,7 +9,7 @@ sort: 3
 ## 1. Writing a Simple Action Server using the Execute Callback
 
 ### 1.1 Creating the Action Messages
-이는 C++과 동일하므로 [actionlib beginner tutorials(c++)](/0001ROS1/0002Intermediate/0002actionlibBeginnerTutorials_cpp.html/)의 1.1을 참고한다.
+이는 C++과 동일하므로 [actionlib beginner tutorials(c++)](/0001ROS1/0002Intermediate/0001Actionlib/0002actionlibBeginnerTutorials_cpp.html/)의 1.1을 참고한다.
 
 ### 1.2 Writing a Simple Server
 #### 1.2.1 The Code
