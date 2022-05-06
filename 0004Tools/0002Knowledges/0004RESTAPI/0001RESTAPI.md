@@ -46,9 +46,9 @@ GET과 POST를 비교하면,
 ## 2.2 Resource
 리소스는 uri를 뜻하며, uri는 인터넷 상의 자원을 식별하기 위한 문자열의 구성이다. 이 리소스를 통해 메소드를 수행하고, 작업을 실행하게 된다.
 
-
-
 ## 2.3 Representation of Resoure
+
+Client가 자원의 상태(정보)에 대한 조작을 요청하면 Server는 이에 적절한 응답(Representation)을 보낸다. 이때, REST에서 하나의 자원은 JSON, XML, TEXT, RSS 등 여러 형태의 Representation으로 나타내어 질 수 있다. 일반적으로는 JSON 혹은 XML를 통해 데이터를 주고 받는다.
 
 ## 3. REST의 특징
 
