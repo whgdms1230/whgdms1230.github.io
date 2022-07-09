@@ -1,5 +1,5 @@
 ---
-sort: 220516
+sort: 16
 ---
 
 # ROS2 Executors
@@ -109,4 +109,10 @@ timer_callback_group = create_callback_group(rclcpp::CallbackGroupType::Mutually
 my_timer = create_wall_timer(std::chrono_literals::100ms, std::bind(callback_function, this), timer_callback_group);
 ```
 
-내용 추가 작성 필요
+# Callback 그룹 내에서 Service 사용
+
+timer callback 그룹 내에서 service client 객체를 이용하여 service call을 보낼 때, service server에 request가 보내지고, server에서도 받아지지만, server에서 response를 해도 client에서 받지 못함
+
+그 원인은 확실하지 않음. 추측으로는 timer callback에서 노드를 사용하는데 service call을 하면 callback 그룹 내에서 중복으로 노드를 사용하는 효과인 것인지..
+
+따라서 timer callback 안에 service나 action을 사용하는 것은 제한사항이 있고, 따라서 timer callback 그룹을 이용하여 thread를 구현하고자 하는 것은 효과적인 방법은 아닌 것 같다.(적어도 foxy 버전에서)...

@@ -1,7 +1,7 @@
 ---
-sort: 4
+sort: 8
 ---
 
-# Debug
+# Chapter 14. Handling Errors
 
 {% include list.liquid all=true %}
