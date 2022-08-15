@@ -215,10 +215,203 @@ C++ 표준 라이브러리에 미리 정의돼 있는 익셉션 클래스를 활
 
 ## 4. 여러 가지 익셉션 던지고 받기
 
+readIntegerFile()에서 발생할 수 있는 다른 오류(파일 열기 실패, 데이터 읽기 오류)가 발생할 때 익셉션을 던지도록 다음과 같이 수정할 수 있다.
+
+> 이번에는 exception을 상속한 runtime_error로 구현한다. 이 타입은 생성자를 호출할 때 예외에 대한 설명을 지정할 수 있다. runtime_error 익셉션 클래스는 `<stdexcept>` 헤더에 정의되어 있다.
+
+```cpp
+vector<int> readIntegerFile(string_view fileName)
+{
+    ifstream inputSream(fileName.data());
+    if(inputSream.fail()){
+        // 파일 열기에 실패한 경우 : 익셉션을 던진다.
+        throw runtime_error("Unable to open the file.");
+    }
+
+    // 파일에서 정수를 하나씩 읽어 벡터에 추가한다.
+    vector<int> integers;
+    int tmp;
+    while(inputSream >> temp) {
+        integers.push_back(temp);
+    }
+
+    if(!inputSream.eof()){
+        // 파일 끝(EOF)에 도달하지 않았다.
+        // 다시 발해 파일을 읽는 도중 에러가 발생했다.
+        // 따라서 익셉션을 던진다.
+        throw runtime_error("Error reading the file.");
+    }
+
+    return integers;
+}
+```
+
+앞에서 main() 함수를 작성할 때 catch 구문이 runtime_error의 베이스 클래스인 exception 타입을 받도록 지정해뒀기 때문에 여기서는 변경할 필요 없다. 이렇게 하면 catch 문은 두 가지 상황을 모두 처리하게 된다.
+
+```cpp
+try {
+    myInts = readIntegerFile(fileName);
+} catch (const exception& e) {
+    cerr < e.what() << endl;
+    return 1;
+}
+```
+
+이렇게 하지 않고 readIntegerFile()에서 익셥선을 두 가지 타입으로 따로 나눠서 던져도 된다. 파일을 열 수 없으면 invalid_argument 익셉션을 던지고, 정수를 읽을 수 없으면 runtime_error 익셉션을 던진다.
+
+```cpp
+vector<int> readIntegerFile(string_view fileName)
+{
+    ifstream inputSream(fileName.data());
+    if(inputSream.fail()){
+        // 파일 열기에 실패한 경우 : 익셉션을 던진다.
+        throw invalid_argument("Unable to open the file.");
+    }
+
+    // 파일에서 정수를 하나씩 읽어 벡터에 추가한다.
+    vector<int> integers;
+    int tmp;
+    while(inputSream >> temp) {
+        integers.push_back(temp);
+    }
+
+    if(!inputSream.eof()){
+        // 파일 끝(EOF)에 도달하지 않았다.
+        // 다시 발해 파일을 읽는 도중 에러가 발생했다.
+        // 따라서 익셉션을 던진다.
+        throw runtime_error("Error reading the file.");
+    }
+
+    return integers;
+}
+```
+
+> invalid_argument와 runtime_error에는 public 디폴트 생성자가 없고 string 인수를 받는 생성자만 있다.
+
+main()에서는 invalid_argument와 runtime_error를 받는 catch 문을 각각 작성한다.
+
+```cpp
+try {
+    myInts = readIntegerFile(fileName);
+} catch (const invalid_argument& e) {
+    cerr < e.what() << endl;
+    return 1;
+} catch (const runtime_error& e) {
+    cerr < e.what() << endl;
+    return 2;
+}
+```
+
+try 블록에서 익셉션이 발생하면 컴파일러는 그 익셉션 타입과 일치하는 catch 문을 선택한다.
+
 ### 4.1 익셉션 타입 매칭과 const
+
+처리하려는 익셉션 타입에 const가 지정됐는지 여부는 매칭 과정에 영향을 미치지 않는다. 다시 말해 다음 문장은 runtime_error 타입에 속하는 모든 익셉션을 매칭한다.
+
+```cpp
+} catch (const runtime_error& e) {
+```
+
+다음 문장도 마찬가지로 runtime_error 타입에 속하는 모든 익셉션을 매칭한다.
+
+```cpp
+} catch (runtime_error& e) {
+```
 
 ### 4.2 모든 익셉션 매칭하기
 
+catch 문에서 모든 종류의 익셉션에 매칭하려면 다음과 같이 특수한 문법으로 작성한다.
+
+```cpp
+try {
+    myInts = readIntegerFile(fileName);
+} catch (...) {
+    cerr < "Error reading or opening file " << fileName << endl;
+    return 1;
+}
+```
+
+> `...` 은 모든 익셉션 타입에 매칭하라는 와일드카드다. 문서에 익셉션 타입이 정확히 나와 있지 않아서 모든 익셉션을 받게 만들 때 유용하다. 하지만 이는 필요 없는 익셉션까지 처리하기 때문에 발생 가능한 익셉션을 확실히 알 수 있다면 이렇게 구현하지 않는 것이 좋다.
+
+`catch (...)` 구문은 디폴트 catch 핸들러를 구현할 때도 유용하다. 익셉션이 발생하면 catch 핸들러가 코드에 나열된 순서대로 검색하면서 조건에 맞는 것을 실행한다.
+
+```cpp
+try{
+    // 익셉션이 발생할 수 있는 코드
+} catch (const invalid_argument& e) {
+    // invalid_argument 익셉션을 처리하는 핸들러 코드   
+} catch (const runtime_error& e) {
+    // runtime_error 익셉션을 처리하는 핸들러 코드   
+} catch (...) {
+    // 나머지 모든 익셉션을 처리하는 핸들러 코드   
+}
+```
+
 ## 5. 처리하지 못한 익셉션
 
+프로그램에서 발생한 익셉션을 처리하는 곳이 하나도 없으면 프로그램이 종료돼버린다. 그래서 미처 처리하지 못한 익셉션을 모두 잡도록 main() 함수 전체를 try/catch 구문으로 감싸는 패턴을 많이 사용한다.
+
+```cpp
+try {
+    main(argc, argv);
+} catch (...) {
+    // 에러 메시지를 출력한 뒤 프로그램을 종료한다.
+}
+```
+
+> 반드시 프로그램에서 발생할 수 있는 익셉션을 모두 잡아서 처리하도록 작성한다.
+
+catch 구문으로 처리하지 못한 익셉션이 남아 있다면 프로그램을 다르게 실행하도록 구현하는 방법도 있다. 예를 들어 프로그램이 잡지 못한 익셉션을 만나면 `terminate()` 함수를 호출하게 만들 수 있다. 이 함수는 C++에서 기본으로 제공하며, 내부적으로 `<cstdlib>` 헤더에 정의된 abort() 함수를 호출해서 프로그램을 죽인다. 또는 `set_terminate()`에 인수를 받지 않고 리턴값도 없는 콜백 함수를 포인터로 지정하는 방식으로 `terminate_handler`를 직접 구현해도 된다. 이들 함수 모드 `<exception>` 헤더에 선언돼 있다.
+
+```cpp
+try {
+    main(argc, argv);
+} catch (...) {
+    if (terminate_handler != nullptr) {
+        terimnate_handler();
+    } else {
+        terminate();
+    }
+}
+// 정상 종료 코드
+```
+
+종료 직전에 유용한 정보를 담은 에러 메시지를 출력하기 위해 커스텀 콜백 함수인 myTerminate()를 terminate_handler로 지정하도록 한다. 이 핸들러는 readIntegerFile()이 던지는 익셉션을 제대로 처리하지 않고 그냥 에러 메시지만 출력한 뒤 exit()를 호출해서 프로그램을 종료시킨다. exit() 함수는 프로세스를 종료하는 방식을 표현하는 정숫값을 인수로 받는다.
+
+```cpp
+void myTerminate()
+{
+    cout << "Uncaught exception!" << endl;
+    exit(1);
+}
+
+int main()
+{
+    set_terminate(myTerminate);
+
+    const string fileName = "IntegerFile.txt";
+    vector<int> myInts = readIntegerFile(fileName);
+
+    for (const auto& element : myInts){
+        cout << element << " ";
+    }
+    cout << endl;
+    return 0;
+}
+```
+
+> set_terminate() 함수로 새로운 terminate_handler를 지정하면 기존에 설정된 핸들러를 리턴한다. terminate_handler는 프로그램 전체에서 접근할 수 있기 때문에 처리할 일이 끝나면 이를 리셋하는 것이 바람직다. 이 예제에서는 terminate_handler를 사용하는 다른 코드가 없기 때문에 리셋하지 않았다.
+
+> set_terminate()는 반드시 알아야 할 기능 중 하나지만, 에러 처리에 가장 효과적인 수단은 아니다. 그보다는 처리할 익셉션을 try/catch 구문에 구체적으로 지정해서 꼭 필요한 익셉션만 제대로 처리하는 것이 바람직하다.
+
 ## 6. noexcept
+
+함수에 noexcept 키워드를 지정해서 어떠한 익셉션도 던지지 않는다고 지정할 수 있다. 예를 들어 앞에서 본 readIntegerFile() 함수에 noexcept를 지정하면 익셉션을 하나도 던지지 않는다.
+
+```cpp
+vector<int> readIntegerFile(string_view fileName) noexcept;
+```
+
+noexcept 키워드가 지정된 함수에 익셉션을 던지는 코드가 있으면 terminate()를 호출해서 프로그램을 종료시킨다.
+
+파생 클래스에서 virtual 메서드를 오버라이드할 때 베이스 클래스에 정의된 메서드에 noexcept가 지정되지 않았더라도 오버라이드하는 메서드에 noexcept를 지정할 수 있다. 하지만 그 반대로는 할 수 없다.
