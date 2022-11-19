@@ -2,13 +2,13 @@
 layout: page
 title: Profile
 permalink: /profile/
-feature-img: "assets/img/pexels/travel.jpeg"
+feature-img: "assets/img/feature-img/circuit.jpeg"
 tags: [Page]
 ---
 
 ## 1. Profile
 
-<img src="/assets/img/picture.jpg"  width="150" height="200" />
+<img src="/assets/img/picture.jpg" width="500" />
 
 ### Jiyong Kim
 
